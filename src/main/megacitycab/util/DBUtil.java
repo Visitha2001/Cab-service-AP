@@ -1,21 +1,25 @@
-package main.megacitycab.util;
+package com.megacitycab.util;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DBUtil {
-    private static final String URL = "jdbc:mysql://localhost:3306/cab_service_db";
-    private static final String USERNAME = "root";
-    private static final String PASSWORD = "VNR2001vnr#";
+    private static final String URL = "jdbc:postgresql://localhost:5432/megacitycab";
+    private static final String USERNAME = "postgres";
+    private static final String PASSWORD = "vnr2001";
 
-    public static Connection getConnection() throws SQLException {
+    public static Connection getConnection() {
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            return DriverManager.getConnection(URL, USERNAME, PASSWORD);
-        } catch (ClassNotFoundException e) {
+            Class.forName("org.postgresql.Driver");
+            Connection connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+            if (connection != null) {
+                System.out.println("Connection to PostgreSQL successful!");
+            }
+            return connection;
+        } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
-            throw new SQLException("Unable to load database driver");
+            return null;
         }
     }
 }
